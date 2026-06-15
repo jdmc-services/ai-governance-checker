@@ -465,42 +465,28 @@ Be specific to healthcare and their organization type. Use plain language. No ja
 
                 r = json.loads(raw)
 
-                st.markdown(f"""
-                <div class="ai-rec">
-                    <div class="ai-rec-header">🤖 Claude AI — Personalized Governance Recommendation</div>
+                priority = r.get('priority_action','—')
+                plan = r.get('30_day_plan','—')
+                risk = r.get('biggest_risk','—')
+                win = r.get('quick_win','—')
+                path = r.get('readiness_path','—')
+                exec_msg = r.get('executive_message','—')
 
-                    <div style="background:#0A0F1E;border-radius:8px;padding:14px;margin-bottom:12px">
-                        <div style="color:#0D7680;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">⚡ Priority Action This Week</div>
-                        <div style="color:#FFFFFF;font-size:14px;font-weight:600">{r.get('priority_action','—')}</div>
-                    </div>
+                st.markdown('<div class="ai-rec"><div class="ai-rec-header">🤖 Claude AI — Personalized Governance Recommendation</div></div>', unsafe_allow_html=True)
 
-                    <div style="background:#0A0F1E;border-radius:8px;padding:14px;margin-bottom:12px">
-                        <div style="color:#0D7680;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">📅 30-Day Plan</div>
-                        <div style="color:#D1D5DB;font-size:13px;line-height:1.7">{r.get('30_day_plan','—')}</div>
-                    </div>
+                st.markdown(f'<div style="background:#0A0F1E;border-radius:8px;padding:14px;margin-bottom:12px"><div style="color:#0D7680;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">⚡ Priority Action This Week</div><div style="color:#FFFFFF;font-size:14px;font-weight:600">{priority}</div></div>', unsafe_allow_html=True)
 
-                    <div style="display:flex;gap:12px;margin-bottom:12px">
-                        <div style="flex:1;background:#1A0808;border:1px solid #7F1D1D;border-radius:8px;padding:14px">
-                            <div style="color:#FCA5A5;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">⚠️ Biggest Risk</div>
-                            <div style="color:#D1D5DB;font-size:12px;line-height:1.6">{r.get('biggest_risk','—')}</div>
-                        </div>
-                        <div style="flex:1;background:#064E3B;border:1px solid #10B981;border-radius:8px;padding:14px">
-                            <div style="color:#6EE7B7;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">✅ Quick Win (24 hrs)</div>
-                            <div style="color:#D1D5DB;font-size:12px;line-height:1.6">{r.get('quick_win','—')}</div>
-                        </div>
-                    </div>
+                st.markdown(f'<div style="background:#0A0F1E;border-radius:8px;padding:14px;margin-bottom:12px"><div style="color:#0D7680;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">📅 30-Day Plan</div><div style="color:#D1D5DB;font-size:13px;line-height:1.7">{plan}</div></div>', unsafe_allow_html=True)
 
-                    <div style="background:#0A0F1E;border-radius:8px;padding:14px;margin-bottom:12px">
-                        <div style="color:#0D7680;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">🗓️ Realistic Readiness Timeline</div>
-                        <div style="color:#D1D5DB;font-size:13px">{r.get('readiness_path','—')}</div>
-                    </div>
+                rc1, rc2 = st.columns(2)
+                with rc1:
+                    st.markdown(f'<div style="background:#1A0808;border:1px solid #7F1D1D;border-radius:8px;padding:14px"><div style="color:#FCA5A5;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">⚠️ Biggest Risk</div><div style="color:#D1D5DB;font-size:12px;line-height:1.6">{risk}</div></div>', unsafe_allow_html=True)
+                with rc2:
+                    st.markdown(f'<div style="background:#064E3B;border:1px solid #10B981;border-radius:8px;padding:14px"><div style="color:#6EE7B7;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">✅ Quick Win (24 hrs)</div><div style="color:#D1D5DB;font-size:12px;line-height:1.6">{win}</div></div>', unsafe_allow_html=True)
 
-                    <div style="background:#1B3A6B;border-radius:8px;padding:14px">
-                        <div style="color:#AABBDD;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">📢 Message for Your CIO / CISO</div>
-                        <div style="color:#FFFFFF;font-size:14px;font-weight:600;font-style:italic">"{r.get('executive_message','—')}"</div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f'<div style="background:#0A0F1E;border-radius:8px;padding:14px;margin:12px 0"><div style="color:#0D7680;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">🗓️ Realistic Readiness Timeline</div><div style="color:#D1D5DB;font-size:13px">{path}</div></div>', unsafe_allow_html=True)
+
+                st.markdown(f'<div style="background:#1B3A6B;border-radius:8px;padding:14px"><div style="color:#AABBDD;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px">📢 Message for Your CIO / CISO</div><div style="color:#FFFFFF;font-size:14px;font-weight:600;font-style:italic">"{exec_msg}"</div></div>', unsafe_allow_html=True)
 
             except Exception as e:
                 st.error(f"AI recommendation unavailable: {str(e)}")
